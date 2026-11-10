@@ -1,0 +1,1213 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>KasirKu - Solusi Kasir Lebih Praktis</title>
+    <!-- FontAwesome untuk ikon -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* RESET & GLOBAL STYLES */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background-color: #fff7ed;
+            color: #1f2937;
+            height: 100vh;
+            overflow: hidden;
+        }
+        .hidden {
+            display: none !important;
+        }
+        
+        /* HALAMAN LOGIN */
+        .login-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #f59e0b, #ea580c);
+            padding: 1rem;
+        }
+        .login-card {
+            background: #ffffff;
+            border-radius: 1rem;
+            padding: 2.5rem;
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        .login-icon {
+            background-color: #fde047;
+            display: inline-block;
+            padding: 1rem;
+            border-radius: 1rem;
+            color: #78350f;
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        .login-title {
+            font-size: 1.25rem;
+            font-weight: bold;
+            color: #111827;
+        }
+        .login-subtitle {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #ea580c;
+            margin-top: 0.25rem;
+        }
+        .login-desc {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin-bottom: 1.5rem;
+        }
+        .form-group-wrapper {
+            text-align: left;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+        .input-group label {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            color: #4b5563;
+            margin-bottom: 0.25rem;
+        }
+        .input-group input, .search-input, .input-readonly {
+            width: 100%;
+            padding: 0.75rem 1rem;
+            border: 1px solid #d1d5db;
+            border-radius: 0.5rem;
+            font-size: 0.875rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .input-group input:focus, .search-input:focus {
+            border-color: #f97316;
+            box-shadow: 0 0 0 2px rgba(249, 115, 22, 0.2);
+        }
+        
+        /* TOMBOL UTAMA */
+        .btn-primary {
+            width: 100%;
+            background-color: #f97316;
+            color: white;
+            font-weight: bold;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        }
+        .btn-primary:hover {
+            background-color: #ea580c;
+        }
+        .btn-secondary {
+            width: 100%;
+            background-color: #f3f4f6;
+            color: #374151;
+            font-weight: bold;
+            padding: 0.75rem;
+            border: none;
+            border-radius: 0.5rem;
+            cursor: pointer;
+        }
+        .btn-secondary:hover {
+            background-color: #e5e7eb;
+        }
+        .btn-detail {
+            background-color: #fff7ed;
+            border: 1px solid #f97316;
+            color: #ea580c;
+            padding: 0.25rem 0.75rem;
+            border-radius: 0.375rem;
+            font-size: 0.75rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+        .btn-detail:hover {
+            background-color: #ffedd5;
+        }
+        
+        /* LAYOUT WEB */
+        .app-container {
+            display: flex;
+            height: 100vh;
+        }
+
+        /* SIDEBAR */
+        .sidebar {
+            width: 260px;
+            background-color: #f97316;
+            color: white;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            box-shadow: 4px 0 10px rgba(0, 0, 0, 0.05);
+        }
+        .sidebar-brand {
+            padding: 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+        }
+        .brand-icon {
+            background-color: #fde047;
+            color: #78350f;
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.5rem;
+            font-weight: bold;
+        }
+        .sidebar-brand h2 {
+            font-size: 1.1rem;
+            line-height: 1.2;
+        }
+        .sidebar-brand span {
+            font-size: 0.75rem;
+            color: #ffedd5;
+        }
+        .sidebar-nav {
+            padding: 1rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        .nav-item {
+            width: 100%;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            padding: 0.75rem 1rem;
+            border-radius: 0.75rem;
+            background: transparent;
+            border: none;
+            color: #ffedd5;
+            font-weight: 500;
+            cursor: pointer;
+            text-align: left;
+            transition: background 0.2s;
+        }
+        .nav-item:hover {
+            background-color: #ea580c;
+        }
+        .nav-item.active {
+            background-color: #ffffff;
+            color: #ea580c;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        }
+        .sidebar-footer {
+            padding: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        /* CONTENT */
+        .main-content {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+        .topbar {
+            background-color: #ffffff;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+        .topbar h1 {
+            font-size: 1.25rem;
+            color: #1f2937;
+        }
+        .user-profile {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            font-size: 0.875rem;
+            color: #4b5563;
+        }
+        .avatar {
+            width: 2.5rem;
+            height: 2.5rem;
+            background-color: #ffedd5;
+            color: #f97316;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+        }
+        .content-body {
+            padding: 2rem;
+            flex: 1;
+        }
+
+        /* BACKGROUND KONTEN */
+        .card {
+            background: #ffffff;
+            padding: 1.5rem;
+            border-radius: 1rem;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+            border: 1px solid #f3f4f6;
+        }
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 1.5rem;
+        }
+        .stat-label {
+            font-size: 0.875rem;
+            color: #6b7280;
+            font-weight: 500;
+        }
+        .stat-value {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #1f2937;
+            margin-top: 0.5rem;
+        }
+        
+        /* LAYOUT TRANSAKSI */
+        .transaction-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr;
+            gap: 2rem;
+        }
+        .transaction-left {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        .catalog-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 1rem;
+        }
+        .product-item {
+            border: 1px solid #e5e7eb;
+            border-radius: 0.75rem;
+            padding: 0.75rem;
+            text-align: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+        .product-item:hover {
+            border-color: #f97316;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+        }
+        .product-img {
+            background-color: #fff7ed;
+            height: 5rem;
+            border-radius: 0.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        .product-item h4 {
+            font-size: 0.875rem;
+        }
+        .product-price {
+            font-size: 0.75rem;
+            color: #ea580c;
+            font-weight: bold;
+            margin-top: 0.25rem;
+        }
+
+        /* TABEL */
+        .data-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.875rem;
+            text-align: left;
+        }
+        .data-table th {
+            background-color: #f9fafb;
+            color: #4b5563;
+            padding: 0.75rem;
+            border-bottom: 1px solid #e5e7eb;
+        }
+        .data-table td {
+            padding: 0.75rem;
+            border-bottom: 1px solid #f3f4f6;
+        }
+        .table-footer {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #e5e7eb;
+            font-size: 0.875rem;
+            font-weight: 600;
+        }
+
+        /* SIDEBAR TRANSAKSI */
+        .transaction-right {
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        .section-title {
+            font-size: 1rem;
+            font-weight: bold;
+            border-bottom: 1px solid #e5e7eb;
+            padding-bottom: 0.75rem;
+            margin-bottom: 1rem;
+        }
+        .detail-row {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.875rem;
+            color: #4b5563;
+            margin-bottom: 0.5rem;
+        }
+        .total-row-final {
+            font-size: 1rem;
+            font-weight: bold;
+            color: #111827;
+            border-top: 1px solid #e5e7eb;
+            padding-top: 0.75rem;
+            margin-top: 0.75rem;
+        }
+        .text-orange {
+            color: #ea580c;
+        }
+        .text-green {
+            color: #16a34a;
+        }
+        .input-label {
+            display: block;
+            font-size: 0.75rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: #4b5563;
+            margin-bottom: 0.25rem;
+        }
+        .badge-success {
+            background-color: #dcfce7;
+            color: #15803d;
+            padding: 0.25rem 0.75rem;
+            border-radius: 9999px;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+
+        /* TAB AKUN */
+        .akun-card {
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        .akun-avatar {
+            width: 6rem;
+            height: 6rem;
+            background-color: #fff7ed;
+            color: #f97316;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            margin: 0 auto 1.5rem auto;
+        }
+        .akun-info {
+            text-align: left;
+            margin-bottom: 1.5rem;
+        }
+        .akun-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.75rem 0;
+            border-bottom: 1px solid #f3f4f6;
+            font-size: 0.875rem;
+        }
+        .akun-row span {
+            color: #6b7280;
+        }
+        .akun-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+        .btn-outline {
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.75rem 1rem;
+            border: 1px solid #e5e7eb;
+            background: white;
+            border-radius: 0.75rem;
+            font-weight: 500;
+            font-size: 0.875rem;
+            cursor: pointer;
+        }
+        .btn-outline:hover {
+            background-color: #f9fafb;
+        }
+
+        /* DETAIL TRANSAKSI */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background-color: rgba(0, 0, 0, 0.5);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem;
+            z-index: 50;
+        }
+        .modal-card {
+            background: white;
+            border-radius: 1rem;
+            max-width: 350px;
+            width: 100%;
+            padding: 1.5rem;
+            text-align: center;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        .modal-card-large {
+            background: white;
+            border-radius: 1rem;
+            max-width: 500px;
+            width: 100%;
+            padding: 1.5rem;
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+        }
+        .modal-icon {
+            width: 3rem;
+            height: 3rem;
+            background-color: #fff7ed;
+            color: #f97316;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem auto;
+            font-size: 1.25rem;
+        }
+        .modal-card h3 {
+            font-size: 1.125rem;
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        .modal-card p {
+            font-size: 0.875rem;
+            color: #6b7280;
+            margin-bottom: 1.5rem;
+        }
+        .modal-buttons {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+        #cart-table-body button.qty-btn {
+            border: 1px solid #d1d5db;
+            background: #ffffff;
+            border-radius: 4px;
+            font-weight: bold;
+            color: #374151;
+            padding: 2px 8px;
+            cursor: pointer;
+        }
+        #cart-table-body button.qty-btn:hover {
+            background-color: #f3f4f6;
+        }
+    </style>
+</head>
+<body>
+    <!-- ================= 1. HALAMAN LOGIN ================= -->
+    <div id="page-login" class="login-container">
+        <div class="login-card">
+            <div class="login-icon">
+                <i class="fa-solid fa-utensils"></i>
+            </div>
+            <h1 class="login-title">REPUBLIC KEBAB</h1>
+            <h2 class="login-subtitle">KasirKu</h2>
+            <p class="login-desc">Solusi kasir lebih praktis</p>
+            
+            <div class="form-group-wrapper">
+                <div class="input-group">
+                    <label>Username</label>
+                    <input type="text" id="username" value="Fadil">
+                </div>
+                <div class="input-group">
+                    <label>Password</label>
+                    <input type="password" id="password" value="Fadil123">
+                </div>
+                <button onclick="handleLogin()" class="btn-primary">Masuk</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= 2. APLIKASI UTAMA (DASHBOARD) ================= -->
+    <div id="app-container" class="app-container hidden">
+        
+        <!-- SIDEBAR -->
+        <aside class="sidebar">
+            <div>
+                <div class="sidebar-brand">
+                    <div class="brand-icon">
+                        <i class="fa-solid fa-utensils"></i>
+                    </div>
+                    <div>
+                        <h2>KasirKu</h2>
+                        <span>Republic Kebab</span>
+                    </div>
+                </div>
+
+                <nav class="sidebar-nav">
+                    <button onclick="switchTab('dashboard')" id="nav-dashboard" class="nav-item">
+                        <i class="fa-solid fa-house"></i>
+                        <span>Dashboard</span>
+                    </button>
+                    <button onclick="switchTab('transaksi')" id="nav-transaksi" class="nav-item active">
+                        <i class="fa-solid fa-cart-shopping"></i>
+                        <span>Transaksi</span>
+                    </button>
+                    <button onclick="switchTab('riwayat')" id="nav-riwayat" class="nav-item">
+                        <i class="fa-solid fa-clock-rotate-left"></i>
+                        <span>Riwayat Transaksi</span>
+                    </button>
+                    <button onclick="switchTab('akun')" id="nav-akun" class="nav-item">
+                        <i class="fa-solid fa-user"></i>
+                        <span>Akun</span>
+                    </button>
+                </nav>
+            </div>
+
+            <div class="sidebar-footer">
+                <button onclick="openLogoutModal()" class="nav-item">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span>Logout</span>
+                </button>
+            </div>
+        </aside>
+
+        <!-- MAIN CONTENT AREA -->
+        <main class="main-content">
+            
+            <!-- TOPBAR -->
+            <header class="topbar">
+                <h1 id="page-title">Transaksi</h1>
+                <div class="user-profile">
+                    <span>Halo, <strong>KasirKu</strong></span>
+                    <div class="avatar">K</div>
+                </div>
+            </header>
+
+            <!-- CONTENT SECTIONS -->
+            <div class="content-body">
+                
+                <!-- TAB 1: DASHBOARD -->
+                <div id="tab-dashboard" class="tab-pane hidden">
+                    <div class="stats-grid">
+                        <div class="card">
+                            <p class="stat-label">Total Pendapatan Hari Ini</p>
+                            <h3 class="stat-value" id="dash-total-pendapatan">Rp 0</h3>
+                        </div>
+                        <div class="card">
+                            <p class="stat-label">Transaksi Selesai</p>
+                            <h3 class="stat-value" id="dash-total-transaksi">0 Transaksi</h3>
+                        </div>
+                        <div class="card">
+                            <p class="stat-label">Item Terjual</p>
+                            <h3 class="stat-value" id="dash-total-item">0 Item</h3>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- TAB 2: TRANSAKSI -->
+                <div id="tab-transaksi" class="tab-pane transaction-grid">
+                    
+                    <!-- Kiri: Katalog & Tabel Barang -->
+                    <div class="transaction-left">
+                        <!-- Katalog Produk -->
+                        <div class="card">
+                            <div class="catalog-header">
+                                <h3>Menu Kebab</h3>
+                                <input type="text" id="search-input" onkeyup="filterMenu()" placeholder="Cari nama barang..." class="search-input">
+                            </div>
+                            <div class="product-grid" id="product-grid-container">
+                                <div onclick="addItem('BRG-001', 'Kebab Keju', 18000)" class="product-item" data-name="kebab keju">
+                                    <div class="product-img">🌯</div>
+                                    <h4>Kebab Keju</h4>
+                                    <p class="product-price">Rp 18.000</p>
+                                </div>
+                                <div onclick="addItem('BRG-002', 'Kebab Barbeque', 20000)" class="product-item" data-name="kebab barbeque">
+                                    <div class="product-img">🌯</div>
+                                    <h4>Kebab Barbeque</h4>
+                                    <p class="product-price">Rp 20.000</p>
+                                </div>
+                                <div onclick="addItem('BRG-003', 'Kebab Spicy', 18000)" class="product-item" data-name="kebab spicy">
+                                    <div class="product-img">🌯</div>
+                                    <h4>Kebab Spicy</h4>
+                                    <p class="product-price">Rp 18.000</p>
+                                </div>
+                                <div onclick="addItem('BRG-004', 'Kebab Special', 25000)" class="product-item" data-name="kebab special">
+                                    <div class="product-img">🌯</div>
+                                    <h4>Kebab Special</h4>
+                                    <p class="product-price">Rp 25.000</p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tabel Barang -->
+                        <div class="card">
+                            <h3 style="margin-bottom: 1rem;">Daftar Pesanan</h3>
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>No.</th>
+                                        <th>Nama Menu</th>
+                                        <th>Harga Satuan</th>
+                                        <th>Jumlah</th>
+                                        <th>Total</th>
+                                        <th>Aksi</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="cart-table-body">
+                                    <!-- Keranjang dinamis -->
+                                </tbody>
+                            </table>
+                            <div class="table-footer">
+                                <span>Total Menu</span>
+                                <span id="total-qty">0 Item</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Kanan: Detail Transaksi -->
+                    <div class="card transaction-right">
+                        <div>
+                            <h3 class="section-title">Detail Transaksi</h3>
+                            <div class="detail-row">
+                                <span>Total Item</span>
+                                <strong id="detail-total-item">0</strong>
+                            </div>
+                            <div class="detail-row total-row-final">
+                                <span>Total</span>
+                                <span class="text-orange" id="detail-total-harga">Rp 0</span>
+                            </div>
+
+                            <div style="margin-top: 1rem;">
+                                <label class="input-label">Metode Pembayaran</label>
+                                <select id="metode-pembayaran" class="search-input" style="background: white;">
+                                    <option value="Cash">Cash</option>
+                                    <option value="QRIS">QRIS</option>
+                                    <option value="Transfer">Transfer</option>
+                                </select>
+                            </div>
+
+                            <div style="margin-top: 1rem;">
+                                <label class="input-label">Jumlah Bayar (Rp)</label>
+                                <input type="number" id="jumlah-bayar" oninput="calculateChange()" placeholder="0" class="search-input">
+                            </div>
+
+                            <div style="margin-top: 1rem;">
+                                <label class="input-label">Kembalian</label>
+                                <input type="text" id="kembalian" value="Rp 0" class="input-readonly text-green" readonly>
+                            </div>
+                        </div>
+
+                        <button onclick="simpanTransaksi()" class="btn-primary" style="margin-top: 1.5rem;">
+                            Simpan Transaksi
+                        </button>
+                    </div>
+                </div>
+
+                <!-- TAB 3: RIWAYAT TRANSAKSI -->
+                <div id="tab-riwayat" class="tab-pane hidden">
+                    <div class="card">
+                        <h3 style="margin-bottom: 1rem;">Riwayat Transaksi</h3>
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>No</th>
+                                    <th>ID Transaksi</th>
+                                    <th>Tanggal</th>
+                                    <th>Total Pembayaran</th>
+                                    <th>Metode</th>
+                                    <th>Status</th>
+                                    <th>Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody id="history-table-body">
+                                <!-- Riwayat dinamis -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- TAB 4: AKUN -->
+                <div id="tab-akun" class="tab-pane hidden">
+                    <div class="card akun-card">
+                        <div class="akun-avatar">
+                            <i class="fa-solid fa-user"></i>
+                        </div>
+                        <div class="akun-info">
+                            <div class="akun-row"><span>Username</span><strong>KasirKu</strong></div>
+                            <div class="akun-row"><span>Role</span><strong>Kasir</strong></div>
+                            <div class="akun-row"><span>Tanggal Bergabung</span><strong>10 November 2026</strong></div>
+                        </div>
+                        <div class="akun-actions">
+                            <button class="btn-outline" onclick="alert('Fitur Ubah Password')"><span>Ubah Password</span> <i class="fa-solid fa-chevron-right"></i></button>
+                            <button class="btn-outline" onclick="alert('Fitur Pengaturan')"><span>Pengaturan</span> <i class="fa-solid fa-chevron-right"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- ================= 3. MODAL LOGOUT ================= -->
+    <div id="logout-modal" class="modal-overlay hidden">
+        <div class="modal-card">
+            <div class="modal-icon">
+                <i class="fa-solid fa-right-from-bracket"></i>
+            </div>
+            <h3>Keluar dari akun?</h3>
+            <p>Apakah anda yakin ingin keluar dari akun ini?</p>
+            <div class="modal-buttons">
+                <button onclick="handleLogout()" class="btn-primary">Ya, logout</button>
+                <button onclick="closeLogoutModal()" class="btn-secondary">Batal</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ================= 4. MODAL DETAIL TRANSAKSI ================= -->
+    <div id="detail-modal" class="modal-overlay hidden">
+        <div class="modal-card-large">
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e5e7eb; padding-bottom: 0.75rem; margin-bottom: 1rem;">
+                <h3 id="modal-trx-id" style="font-size: 1.125rem; font-weight: bold;">Detail Transaksi</h3>
+                <button onclick="closeDetailModal()" style="border: none; background: none; font-size: 1.25rem; cursor: pointer; color: #6b7280;"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div style="margin-bottom: 1rem; font-size: 0.875rem; color: #4b5563;">
+                <p><strong>Tanggal:</strong> <span id="modal-trx-date">-</span></p>
+                <p><strong>Metode Pembayaran:</strong> <span id="modal-trx-method">-</span></p>
+            </div>
+            <table class="data-table" style="margin-bottom: 1rem;">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Nama Menu</th>
+                        <th>Harga Satuan</th>
+                        <th>Qty</th>
+                        <th>Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody id="modal-item-list">
+                    <!-- Item detail dinamis -->
+                </tbody>
+            </table>
+            <div style="display: flex; justify-content: space-between; font-weight: bold; font-size: 1rem; border-top: 1px solid #e5e7eb; padding-top: 0.75rem; margin-bottom: 1.5rem;">
+                <span>Total Pembayaran:</span>
+                <span id="modal-trx-total" class="text-orange">Rp 0</span>
+            </div>
+            <button onclick="closeDetailModal()" class="btn-primary">Tutup</button>
+        </div>
+    </div>
+
+    <!-- JAVASCRIPT INTERAKTIF LENGKAP -->
+    <script>
+        let cart = [];
+        let historyTransactions = [];
+        let transactionCounter = 1;
+
+        function formatRupiah(number) {
+            return 'Rp ' + number.toLocaleString('id-ID');
+        }
+
+        function handleLogin() {
+            document.getElementById('page-login').classList.add('hidden');
+            document.getElementById('app-container').classList.remove('hidden');
+        }
+
+        function handleLogout() {
+            document.getElementById('logout-modal').classList.add('hidden');
+            document.getElementById('app-container').classList.add('hidden');
+            document.getElementById('page-login').classList.remove('hidden');
+        }
+
+        function openLogoutModal() {
+            document.getElementById('logout-modal').classList.remove('hidden');
+        }
+
+        function closeLogoutModal() {
+            document.getElementById('logout-modal').classList.add('hidden');
+        }
+
+        function switchTab(tabName) {
+            ['dashboard', 'transaksi', 'riwayat', 'akun'].forEach(t => {
+                document.getElementById(`tab-${t}`).classList.add('hidden');
+                document.getElementById(`nav-${t}`).classList.remove('active');
+            });
+
+            document.getElementById(`tab-${tabName}`).classList.remove('hidden');
+            document.getElementById(`nav-${tabName}`).classList.add('active');
+
+            const titles = {
+                dashboard: 'Dashboard',
+                transaksi: 'Transaksi',
+                riwayat: 'Riwayat Transaksi',
+                akun: 'Akun'
+            };
+            document.getElementById('page-title').innerText = titles[tabName];
+        }
+
+        function filterMenu() {
+            let input = document.getElementById('search-input').value.toLowerCase();
+            let items = document.getElementsByClassName('product-item');
+            for (let i = 0; i < items.length; i++) {
+                let name = items[i].getAttribute('data-name');
+                if (name.includes(input)) {
+                    items[i].style.display = "";
+                } else {
+                    items[i].style.display = "none";
+                }
+            }
+        }
+
+        function addItem(code, name, price) {
+            const existingIndex = cart.findIndex(item => item.code === code);
+            if (existingIndex > -1) {
+                cart[existingIndex].qty += 1;
+            } else {
+                cart.push({ code, name, price, qty: 1 });
+            }
+            renderCart();
+        }
+
+        function updateQty(code, change) {
+            const index = cart.findIndex(item => item.code === code);
+            if (index > -1) {
+                cart[index].qty += change;
+                if (cart[index].qty <= 0) {
+                    cart.splice(index, 1);
+                }
+            }
+            renderCart();
+        }
+
+        function removeItem(code) {
+            cart = cart.filter(item => item.code !== code);
+            renderCart();
+        }
+
+        function renderCart() {
+            const tbody = document.getElementById('cart-table-body');
+            tbody.innerHTML = '';
+
+            let totalQty = 0;
+            let totalPrice = 0;
+
+            if (cart.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="6" style="text-align: center; color: #9ca3af; padding: 1.5rem;">
+                            Belum ada barang dipilih. Klik menu di atas untuk menambah.
+                        </td>
+                    </tr>`;
+            } else {
+                cart.forEach((item, index) => {
+                    const subtotal = item.price * item.qty;
+                    totalQty += item.qty;
+                    totalPrice += subtotal;
+
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${index + 1}</td>
+                        <td><strong>${item.name}</strong></td>
+                        <td>${formatRupiah(item.price)}</td>
+                        <td>
+                            <button class="qty-btn" onclick="updateQty('${item.code}', -1)">-</button>
+                            <span style="margin: 0 6px; font-weight:bold;">${item.qty}</span>
+                            <button class="qty-btn" onclick="updateQty('${item.code}', 1)">+</button>
+                        </td>
+                        <td><strong>${formatRupiah(subtotal)}</strong></td>
+                        <td>
+                            <button onclick="removeItem('${item.code}')" style="color: #ef4444; border: none; background: none; cursor: pointer;">
+                                <i class="fa-solid fa-trash"></i>
+                            </button>
+                        </td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            }
+
+            document.getElementById('total-qty').innerText = `${totalQty} Item`;
+            document.getElementById('detail-total-item').innerText = totalQty;
+            document.getElementById('detail-total-harga').innerText = formatRupiah(totalPrice);
+
+            calculateChange();
+        }
+
+        function calculateChange() {
+            const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            const payInput = parseFloat(document.getElementById('jumlah-bayar').value) || 0;
+            const change = payInput - totalPrice;
+
+            const kembalianEl = document.getElementById('kembalian');
+            if (change >= 0) {
+                kembalianEl.value = formatRupiah(change);
+                kembalianEl.style.color = '#16a34a';
+            } else {
+                kembalianEl.value = 'Uang Kurang ' + formatRupiah(Math.abs(change));
+                kembalianEl.style.color = '#dc2626';
+            }
+        }
+
+        function simpanTransaksi() {
+            if (cart.length === 0) {
+                alert('Keranjang belanjaan masih kosong!');
+                return;
+            }
+
+            const totalPrice = cart.reduce((sum, item) => sum + (item.price * item.qty), 0);
+            const payInput = parseFloat(document.getElementById('jumlah-bayar').value) || 0;
+
+            if (payInput < totalPrice) {
+                alert('Pembayaran belum cukup!');
+                return;
+            }
+
+            const now = new Date();
+            const formattedDate = now.toLocaleDateString('id-ID', { day: '2-digit', month: 'short', year: 'numeric' }) + 
+                                  ', ' + now.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+            
+            const trxId = `TRX-${String(transactionCounter).padStart(3, '0')}`;
+            const metode = document.getElementById('metode-pembayaran').value;
+
+            // Simpan deep copy dari cart items ke dalam riwayat transaksi
+            const newTrx = {
+                no: transactionCounter,
+                id: trxId,
+                tanggal: formattedDate,
+                total: totalPrice,
+                metode: metode,
+                items: JSON.parse(JSON.stringify(cart)),
+                itemsCount: cart.reduce((sum, item) => sum + item.qty, 0)
+            };
+
+            historyTransactions.unshift(newTrx);
+            transactionCounter++;
+
+            cart = [];
+            document.getElementById('jumlah-bayar').value = '';
+            renderCart();
+
+            renderHistory();
+            updateDashboard();
+
+            alert(`Transaksi ${trxId} Berhasil Disimpan!`);
+        }
+
+        function renderHistory() {
+            const tbody = document.getElementById('history-table-body');
+            tbody.innerHTML = '';
+
+            if (historyTransactions.length === 0) {
+                tbody.innerHTML = `<tr><td colspan="7" style="text-align: center; color: #9ca3af; padding: 1.5rem;">Belum ada riwayat transaksi.</td></tr>`;
+                return;
+            }
+
+            historyTransactions.forEach((trx, idx) => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${idx + 1}</td>
+                    <td><strong>${trx.id}</strong></td>
+                    <td>${trx.tanggal}</td>
+                    <td>${formatRupiah(trx.total)}</td>
+                    <td>${trx.metode}</td>
+                    <td><span class="badge-success">Selesai</span></td>
+                    <td>
+                        <button class="btn-detail" onclick="openDetailModal(${trx.no})">Lihat Detail</button>
+                    </td>
+                `;
+                tbody.appendChild(tr);
+            });
+        }
+
+        function openDetailModal(trxNo) {
+            const trx = historyTransactions.find(t => t.no === trxNo);
+            if (!trx) return;
+
+            document.getElementById('modal-trx-id').innerText = `Detail Transaksi - ${trx.id}`;
+            document.getElementById('modal-trx-date').innerText = trx.tanggal;
+            document.getElementById('modal-trx-method').innerText = trx.metode;
+            document.getElementById('modal-trx-total').innerText = formatRupiah(trx.total);
+
+            const tbody = document.getElementById('modal-item-list');
+            tbody.innerHTML = '';
+
+            trx.items.forEach((item, index) => {
+                const subtotal = item.price * item.qty;
+                const tr = document.createElement('tr');
+                tr.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td><strong>${item.name}</strong></td>
+                    <td>${formatRupiah(item.price)}</td>
+                    <td>${item.qty}</td>
+                    <td><strong>${formatRupiah(subtotal)}</strong></td>
+                `;
+                tbody.appendChild(tr);
+            });
+
+            document.getElementById('detail-modal').classList.remove('hidden');
+        }
+
+        function closeDetailModal() {
+            document.getElementById('detail-modal').classList.add('hidden');
+        }
+
+        function updateDashboard() {
+            const totalPendapatan = historyTransactions.reduce((sum, t) => sum + t.total, 0);
+            const totalTransaksi = historyTransactions.length;
+            const totalItem = historyTransactions.reduce((sum, t) => sum + t.itemsCount, 0);
+
+            document.getElementById('dash-total-pendapatan').innerText = formatRupiah(totalPendapatan);
+            document.getElementById('dash-total-transaksi').innerText = `${totalTransaksi} Transaksi`;
+            document.getElementById('dash-total-item').innerText = `${totalItem} Item`;
+        }
+
+        renderCart();
+        renderHistory();
+    </script>
+
+    <!-- ================= INJEKSI FITUR UBAH PASSWORD & PERINGATAN LOGIN ================= -->
+    <script>
+        // Menyimpan password yang berlaku (default awal: Fadil123)
+        if (!localStorage.getItem('app_password')) {
+            localStorage.setItem('app_password', 'Fadil123');
+        }
+
+        // 1. Logika Validasi Login & Peringatan Password Salah
+        const originalHandleLogin = window.handleLogin;
+        window.handleLogin = function() {
+            const user = document.getElementById('username').value.trim();
+            const pass = document.getElementById('password').value;
+            const currentStoredPassword = localStorage.getItem('app_password');
+
+            // Hapus peringatan error lama jika ada
+            const existingError = document.getElementById('login-error-msg');
+            if (existingError) existingError.remove();
+
+            if (user === 'Fadil' && pass === currentStoredPassword) {
+                originalHandleLogin();
+            } else {
+                // Tampilkan peringatan password/username salah di bawah form
+                const formWrapper = document.querySelector('.form-group-wrapper');
+                const errorDiv = document.createElement('div');
+                errorDiv.id = 'login-error-msg';
+                errorDiv.style.cssText = 'color: #dc2626; font-size: 0.813rem; background: #fee2e2; padding: 0.5rem; border-radius: 0.375rem; text-align: center; font-weight: 600;';
+                errorDiv.innerText = 'Username atau Password salah!';
+                formWrapper.appendChild(errorDiv);
+            }
+        };
+
+        // 2. Tambahkan Modal Ubah Password ke dalam Body secara dinamis
+        const changePasswordModalHTML = `
+            <div id="change-password-modal" class="modal-overlay hidden">
+                <div class="modal-card" style="max-width: 400px; text-align: left;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #e5e7eb; padding-bottom: 0.75rem; margin-bottom: 1rem;">
+                        <h3 style="font-size: 1.125rem; font-weight: bold; margin: 0;">Ubah Password</h3>
+                        <button onclick="closeChangePasswordModal()" style="border: none; background: none; font-size: 1.25rem; cursor: pointer; color: #6b7280;"><i class="fa-solid fa-xmark"></i></button>
+                    </div>
+                    <div style="display: flex; flex-direction: column; gap: 1rem; margin-bottom: 1.5rem;">
+                        <div>
+                            <label class="input-label" style="margin-bottom: 0.25rem;">Password Lama</label>
+                            <input type="password" id="old-password" class="search-input" placeholder="Masukkan password lama">
+                        </div>
+                        <div>
+                            <label class="input-label" style="margin-bottom: 0.25rem;">Password Baru</label>
+                            <input type="password" id="new-password" class="search-input" placeholder="Masukkan password baru">
+                        </div>
+                        <div>
+                            <label class="input-label" style="margin-bottom: 0.25rem;">Konfirmasi Password Baru</label>
+                            <input type="password" id="confirm-password" class="search-input" placeholder="Ulangi password baru">
+                        </div>
+                        <div id="pwd-error-msg" style="color: #dc2626; font-size: 0.813rem; display: none;"></div>
+                    </div>
+                    <div style="display: flex; gap: 0.5rem;">
+                        <button onclick="submitChangePassword()" class="btn-primary">Simpan</button>
+                        <button onclick="closeChangePasswordModal()" class="btn-secondary">Batal</button>
+                    </div>
+                </div>
+            </div>
+        `;
+        document.body.insertAdjacentHTML('beforeend', changePasswordModalHTML);
+
+        // Fungsi kontrol modal Ubah Password
+        window.openChangePasswordModal = function() {
+            document.getElementById('old-password').value = '';
+            document.getElementById('new-password').value = '';
+            document.getElementById('confirm-password').value = '';
+            document.getElementById('pwd-error-msg').style.display = 'none';
+            document.getElementById('change-password-modal').classList.remove('hidden');
+        };
+
+        window.closeChangePasswordModal = function() {
+            document.getElementById('change-password-modal').classList.add('hidden');
+        };
+
+        window.submitChangePassword = function() {
+            const oldPass = document.getElementById('old-password').value;
+            const newPass = document.getElementById('new-password').value;
+            const confirmPass = document.getElementById('confirm-password').value;
+            const errorEl = document.getElementById('pwd-error-msg');
+            const storedPass = localStorage.getItem('app_password');
+
+            if (oldPass !== storedPass) {
+                errorEl.innerText = 'Password lama salah!';
+                errorEl.style.display = 'block';
+                return;
+            }
+            if (newPass.length < 5) {
+                errorEl.innerText = 'Password baru minimal 5 karakter!';
+                errorEl.style.display = 'block';
+                return;
+            }
+            if (newPass !== confirmPass) {
+                errorEl.innerText = 'Konfirmasi password baru tidak cocok!';
+                errorEl.style.display = 'block';
+                return;
+            }
+
+            localStorage.setItem('app_password', newPass);
+            alert('Password berhasil diubah!');
+            closeChangePasswordModal();
+        };
+
+        // 3. Kaitkan tombol "Ubah Password" di Tab Akun agar membuka modal
+        document.addEventListener("DOMContentLoaded", () => {
+            const akunActions = document.querySelector('.akun-actions');
+            if (akunActions) {
+                const btnOutlineList = akunActions.querySelectorAll('.btn-outline');
+                if (btnOutlineList.length > 0) {
+                    // Tombol pertama di tab Akun adalah "Ubah Password"
+                    btnOutlineList[0].setAttribute('onclick', 'openChangePasswordModal()');
+                }
+            }
+        });
+    </script>
+</body>
+</html>
